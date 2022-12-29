@@ -20,4 +20,25 @@ public class AcceptType {
 
         System.out.println("response.contentType() = " + response.contentType());
     }
+
+    @Test
+    public void getASpartan() {
+        Response response = RestAssured.given().accept(ContentType.JSON)
+                .when().get(baseUrl+ "/25");
+
+        System.out.println("response.statusCode() = " + response.statusCode());
+        System.out.println("response.contentType() = " + response.contentType());
+
+        response.prettyPrint();
+
+    }
+
+    @Test
+    public void getHello() {
+        Response response = RestAssured
+                .when().get("http://54.234.104.66:8000/api/hello");
+
+        System.out.println("response.statusCode() = " + response.statusCode());
+        response.prettyPrint();
+    }
 }
