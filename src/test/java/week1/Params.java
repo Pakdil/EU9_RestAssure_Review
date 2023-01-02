@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.baseURI;
 
 public class Params {
@@ -42,5 +45,40 @@ public class Params {
         Assertions.assertEquals(404, response.statusCode());
 
         Assertions.assertTrue(response.body().asString().contains("Not Found"));
+    }
+
+    @Test
+    public void queryParam1 () {
+        Response response = RestAssured.given().accept(ContentType.JSON)
+                .and().queryParam("nameContains", "z")
+                .when().get("/search");
+
+        System.out.println("response.statusCode() = " + response.statusCode());
+        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertTrue(response.body().asString().contains("Lorenza"));
+    }
+
+    @Test
+    public void queryParam2() {
+        Response response = RestAssured.given().accept(ContentType.JSON)
+                .and().queryParam("nameContains", "c")
+                .and().queryParam("gender", "Female")
+                .when().get("/search");
+
+        System.out.println("response.statusCode() = " + response.statusCode());
+    }
+
+    @Test
+    public void queryParam3() {
+
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("nameContains", "c");
+        queryMap.put("gender", "Female");
+
+        Response response = RestAssured.given().accept(ContentType.JSON)
+                .and().queryParams(queryMap)
+                .when().get("/search");
+
+        System.out.println("response.statusCode() = " + response.statusCode());
     }
 }
