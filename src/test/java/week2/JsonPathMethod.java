@@ -6,6 +6,8 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
 
@@ -27,7 +29,21 @@ public class JsonPathMethod {
         System.out.println(jsonPath.getLong("phone"));
 
 
+    }
 
+    @Test
+    public void test2() {
+        Response response = given().accept(ContentType.JSON)
+                .when().get("/api/spartans");
+
+        JsonPath jsonPath = response.jsonPath();
+        System.out.println(jsonPath.getList("id"));
+        System.out.println(jsonPath.getList("phone"));
+
+        List<String> genders = jsonPath.getList("gender");
+        System.out.println(genders);
+
+        System.out.println(jsonPath.getString("name[4]"));
     }
 
 
